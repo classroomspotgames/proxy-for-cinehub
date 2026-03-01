@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial, sans-serif}
+body{
+    height:100vh;
+    background:url('https://images.unsplash.com/photo-1506744038136-46273834b3fb') no-repeat center center/cover;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    overflow:hidden;
+}
+.overlay{
+    position:absolute;
+    inset:0;
+    background:rgba(0,0,0,0.45);
+    backdrop-filter:blur(6px);
+}
+.container{
+    position:relative;
+    text-align:center;
+    z-index:2;
+}
+#time{
+    font-size:90px;
+    font-weight:600;
+    letter-spacing:2px;
+}
+#date{
+    margin-top:10px;
+    font-size:20px;
+    letter-spacing:3px;
+    color:#f5c6c6;
+}
+.search-box{
+    margin-top:40px;
+    width:500px;
+    max-width:90vw;
+    background:rgba(0,0,0,0.5);
+    border-radius:30px;
+    padding:15px 25px;
+    backdrop-filter:blur(10px);
+}
+.search-box input{
+    width:100%;
+    background:transparent;
+    border:none;
+    outline:none;
+    color:white;
+    font-size:18px;
+}
+.links{
+    margin-top:50px;
+    display:flex;
+    gap:25px;
+    justify-content:center;
+    flex-wrap:wrap;
+}
+.link{
+    width:90px;
+    height:90px;
+    background:rgba(0,0,0,0.5);
+    border-radius:20px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    cursor:pointer;
+    transition:0.3s;
+    backdrop-filter:blur(10px);
+}
+.link:hover{
+    transform:translateY(-8px);
+    background:rgba(255,255,255,0.15);
+}
+.link span{
+    margin-top:8px;
+    font-size:14px;
+}
+</style>
+</head>
+<body>
+<div class="overlay"></div>
+<div class="container">
+    <div id="time"></div>
+    <div id="date"></div>
+
+    <div class="search-box">
+        <input type="text" id="search" placeholder="Search the web or enter URL..." 
+        onkeydown="if(event.key==='Enter'){go();}">
+    </div>
+
+    <div class="links">
+        <div class="link" onclick="quick('https://duckduckgo.com')">
+            🌐<span>DuckDuckGo</span>
+        </div>
+        <div class="link" onclick="quick('https://wikipedia.org')">
+            📖<span>Wikipedia</span>
+        </div>
+        <div class="link" onclick="quick('https://reddit.com')">
+            👽<span>Reddit</span>
+        </div>
+        <div class="link" onclick="quick('roblox.html')">
+            🎮<span>Roblox</span>
+        </div>
+    </div>
+</div>
+
+<script>
+function updateTime(){
+    const now = new Date();
+    document.getElementById("time").innerText = 
+        now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+    document.getElementById("date").innerText =
+        now.toLocaleDateString(undefined, {weekday:'long', month:'long', day:'numeric'});
+}
+setInterval(updateTime,1000);
+updateTime();
+
+function go(){
+    let input = document.getElementById("search").value.trim();
+    if(!input) return;
+    if(!input.startsWith("http")){
+        input = "https://duckduckgo.com/?q=" + encodeURIComponent(input);
+    }
+    window.location.href = input;
+}
+
+function quick(url){
+    window.location.href = url;
+}
+</script>
+
+</body>
+</html>
